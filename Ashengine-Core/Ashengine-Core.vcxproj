@@ -139,7 +139,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Colour.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Pixel.cpp" />
+    <ClCompile Include="PixelColourMap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Colour.hpp" />
+    <ClInclude Include="ConsoleColour.hpp" />
+    <ClInclude Include="Pixel.hpp" />
+    <ClInclude Include="PixelColourMap.hpp" />
+    <ClInclude Include="WIndow.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
