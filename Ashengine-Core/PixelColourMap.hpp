@@ -20,6 +20,8 @@ public:
 
 	static const PixelColourMap& Get();
 
+	bool IsLoaded();
+
 	void Build()
 	{
 		auto Convert = []( Colour a_Colour )
@@ -157,5 +159,6 @@ public:
 
 private:
 
-	Pixel* m_Pixels;
+	bool   m_IsLoaded = false;
+	Pixel* m_Pixels = nullptr;
 };

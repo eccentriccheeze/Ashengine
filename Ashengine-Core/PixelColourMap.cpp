@@ -23,6 +23,12 @@ Colour PixelColourMap::SeedColours[376] =
 bool PixelColourMap::Init()
 {
 	PixelColourMap& PCM = const_cast<PixelColourMap&>(Get());
+	
+	if (PCM.IsLoaded())
+	{
+		return true;
+	}
+
 	PCM.m_Pixels = new Pixel[16777216];
 
 	if (PCM.Load())
@@ -39,5 +45,8 @@ const PixelColourMap& PixelColourMap::Get()
 	return PCM;
 }
 
-
+bool PixelColourMap::IsLoaded()
+{ 
+	return m_IsLoaded; 
+}
 

@@ -162,15 +162,29 @@ public:
         int m_Height;
     };
 
-    Window(const char* a_Title, int a_Width, int a_Height, int a_PixelWidth = 8, int a_PixelHeight = 8)
+    Window(const char* a_Title, int a_Width, int a_Height, int a_PixelWidth = 4, int a_PixelHeight = 4)
         : m_ScreenBuffer(a_Width, a_Height)
+        , m_TitleBuffer()
+        , m_WindowRegion()
+        , m_WindowHandle()
+        , m_RawWidth( 0 )
+        , m_RawHeight( 0 )
+        , m_PixelWidth( 0 )
+        , m_PixelHeight( 0 )
     {
+        PixelColourMap::Init();
+
         // Retrieve handles for console window.
         m_ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
         if (m_ConsoleHandle == INVALID_HANDLE_VALUE)
         {
-            AllocConsole();
+            if (AllocConsole())
+            {
+                m_IsValid = false;
+                return;
+            }
+
             m_ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
         }
 
@@ -187,8 +201,6 @@ public:
         FontInfo.FontWeight = FW_NORMAL;
         wcscpy_s(FontInfo.FaceName, L"Terminal");
         SetCurrentConsoleFontEx(m_ConsoleHandle, false, &FontInfo);
-        m_PixelWidth = a_PixelWidth;
-        m_PixelHeight = a_PixelHeight;
 
         // Get screen buffer info object.
         CONSOLE_SCREEN_BUFFER_INFOEX ScreenBufferInfo;
@@ -243,8 +255,20 @@ public:
         SetWindowLong(m_WindowHandle, GWL_STYLE, WS_CAPTION | DS_MODALFRAME | WS_MINIMIZEBOX | WS_SYSMENU);
         SetWindowPos(m_WindowHandle, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_SHOWWINDOW);
         SetTitle(a_Title);
+
+        RECT WindowRect;
+        GetWindowRect(m_WindowHandle, &WindowRect);
+
+        m_RawWidth = WindowRect.right - WindowRect.left;
+        m_RawHeight = WindowRect.bottom - WindowRect.top;
+        m_PixelWidth = m_RawWidth / m_ScreenBuffer.GetWidth();
+        m_PixelHeight = m_RawHeight / m_ScreenBuffer.GetHeight();
         m_IsValid = true;
     }
+
+    static void SetMainWindow(const Window* a_Window) { s_MainWindow = a_Window; }
+
+    static const Window* GetMainWindow() { return s_MainWindow; }
 
     bool IsValid() const { return m_IsValid; }
 
@@ -282,6 +306,10 @@ public:
     {
         return m_ScreenBuffer.GetColours();
     }
+
+    int GetRawWidth() const { return m_RawWidth; }
+
+    int GetRawHeight() const { return m_RawHeight; }
 
     int GetPixelWidth() const
     {
@@ -353,12 +381,12 @@ public:
             const_cast< WindowRegion* >(&m_WindowRegion));
     }
 
-    ConsoleHandle GetConsoleHandle()
+    ConsoleHandle GetConsoleHandle() const
     {
         return m_ConsoleHandle;
     }
 
-    WindowHandle GetWindowHandle()
+    WindowHandle GetWindowHandle() const
     {
         return m_WindowHandle;
     }
@@ -369,9 +397,12 @@ private:
     ConsoleHandle                m_ConsoleHandle;
     WindowHandle                 m_WindowHandle;
     WindowRegion                 m_WindowRegion;
-    short                        m_PixelWidth;
-    short                        m_PixelHeight;
+    int                          m_RawWidth;
+    int                          m_RawHeight;
+    int                          m_PixelWidth;
+    int                          m_PixelHeight;
     wchar_t                      m_TitleBuffer[64];
     std::string                  m_Title;
     ScreenBuffer                 m_ScreenBuffer;
+    static const Window*         s_MainWindow;
 };
