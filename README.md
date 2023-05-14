@@ -1,2 +1,1 @@
-# Ashengine
-Console window based game engine
+This is Ashengine, a game engine from first principles.
