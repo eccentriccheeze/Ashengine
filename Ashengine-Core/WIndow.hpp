@@ -162,7 +162,7 @@ public:
         int m_Height;
     };
 
-    Window(const char* a_Title, int a_Width, int a_Height, int a_PixelWidth, int a_PixelHeight)
+    Window(const char* a_Title, int a_Width, int a_Height, int a_PixelWidth = 8, int a_PixelHeight = 8)
         : m_ScreenBuffer(a_Width, a_Height)
     {
         // Retrieve handles for console window.
