@@ -149,7 +149,7 @@
     <ClInclude Include="ConsoleColour.hpp" />
     <ClInclude Include="Pixel.hpp" />
     <ClInclude Include="PixelColourMap.hpp" />
-    <ClInclude Include="WIndow.hpp" />
+    <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

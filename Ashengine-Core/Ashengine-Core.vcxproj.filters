@@ -29,7 +29,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WIndow.hpp">
+    <ClInclude Include="Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Colour.hpp">
