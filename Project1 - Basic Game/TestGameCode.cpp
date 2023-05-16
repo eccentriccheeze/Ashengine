@@ -54,6 +54,8 @@ void TestGameCode::OnTick( Window& a_GameWindow, float a_DeltaTime )
 	}
 }
 
+static float i = 0;
+
 void TestGameCode::OnDraw( Window& a_GameWindow )
 {
 	a_GameWindow.SetRect( RectangleX, RectangleY, RectangleWidth, RectangleHeight, Colour::LIGHT_BLUE );

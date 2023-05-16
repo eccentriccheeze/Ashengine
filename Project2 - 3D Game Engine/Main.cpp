@@ -4,45 +4,25 @@
 #include "Input.hpp"
 #include "Application.hpp"
 
-class Engine3D : public Application
-{
-public:
-
-	Engine3D()
-	{
-
-	}
-
-	void OnCreate()
-	{
-
-	}
-
-	void OnUpdate( float a_DeltaTime )
-	{
-
-	}
-};
-
 int main()
 {
 	// Create a window to draw to.
-	Window GameWindow( "New window!", 128, 128, 8, 8 );
+	Window GameWindow("New window!", 128, 128, 8, 8);
 
 	// Check if the new window creation was successful. If not, return error code.
-	if ( !GameWindow.IsValid() )
+	if (!GameWindow.IsValid())
 	{
 		return 1;
 	}
 
 	// Set the main window for this application to the one we just made.
-	const Window* GameWindowPointer = &GameWindow;
-	Window::SetMainWindow( GameWindowPointer );
+	Window* GameWindowPointer = &GameWindow;
+	Window::SetMainWindow(GameWindowPointer);
 
-	// Do things that need to happen once at the start, like setting up input.
+	// Initialize the input.
 	Input::Init();
 
-	// Create the game app, and run it.
-	Engine3D Game;
-	Game.Start();
+	// Create the game app, and run it here...
+
+	
 }

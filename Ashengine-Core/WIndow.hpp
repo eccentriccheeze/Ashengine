@@ -266,9 +266,9 @@ public:
         m_IsValid = true;
     }
 
-    static void SetMainWindow(const Window* a_Window) { s_MainWindow = a_Window; }
+    static void SetMainWindow(Window* a_Window) { s_MainWindow = a_Window; }
 
-    static const Window* GetMainWindow() { return s_MainWindow; }
+    static Window* GetMainWindow() { return s_MainWindow; }
 
     bool IsValid() const { return m_IsValid; }
 
@@ -371,6 +371,190 @@ public:
         m_ScreenBuffer.SetRect(a_X, a_Y, a_Width, a_Height, a_Colour);
     }
 
+    void SetLine(int a_StartX, int a_StartY, int a_EndX, int a_EndY, Pixel a_Pixel)
+    {
+        static const auto PlotLineLow = [](int x0, int y0, int x1, int y1, Pixel p)
+        {
+            Window* MainWindow = Window::GetMainWindow();
+
+            int dx = x1 - x0;
+            int dy = y1 - y0;
+            int yi = 1;
+
+            if (dy < 0)
+            {
+                yi = -1;
+                dy = -dy;
+            }
+
+            int D = (2 * dy) - dx;
+            int y = y0;
+
+            for (int x = x0; x < x1; ++x)
+            {
+                MainWindow->SetPixel(x, y, p);
+
+                if (D > 0)
+                {
+                    y = y + yi;
+                    D = D + (2 * (dy - dx));
+                }
+                else
+                {
+                    D = D + 2 * dy;
+                }
+            }
+        };
+
+        static const auto PlotLineHigh = [](int x0, int y0, int x1, int y1, Pixel p)
+        {
+            Window* MainWindow = Window::GetMainWindow();
+
+            int dx = x1 - x0;
+            int dy = y1 - y0;
+            int xi = 1;
+
+            if (dx < 0)
+            {
+                xi = -1;
+                dx = -dx;
+            }
+
+            int D = (2 * dx) - dy;
+            int x = x0;
+
+            for (int y = y0; y < y1; ++y)
+            {
+                MainWindow->SetPixel(x, y, p);
+
+                if (D > 0)
+                {
+                    x = x + xi;
+                    D = D + (2 * (dx - dy));
+                }
+                else
+                {
+                    D = D + 2 * dx;
+                }
+            }
+        };
+
+        if (abs(a_EndY - a_StartY) < abs(a_EndX - a_StartX))
+        {
+            if (a_StartX > a_EndX)
+            {
+                PlotLineLow(a_EndX, a_EndY, a_StartX, a_StartY, a_Pixel);
+            }
+            else
+            {
+                PlotLineLow(a_StartX, a_StartY, a_EndX, a_EndY, a_Pixel);
+            }
+        }
+        else
+        {
+            if (a_StartY > a_EndY)
+            {
+                PlotLineHigh(a_EndX, a_EndY, a_StartX, a_StartY, a_Pixel);
+            }
+            else
+            {
+                PlotLineHigh(a_StartX, a_StartY, a_EndX, a_EndY, a_Pixel);
+            }
+        }
+    }
+
+    void SetLine(int a_StartX, int a_StartY, int a_EndX, int a_EndY, Colour a_Colour)
+    {
+        static const auto PlotLineLow = [](int x0, int y0, int x1, int y1, Colour c)
+        {
+            Window* MainWindow = Window::GetMainWindow();
+
+            int dx = x1 - x0;
+            int dy = y1 - y0;
+            int yi = 1;
+
+            if (dy < 0)
+            {
+                yi = -1;
+                dy = -dy;
+            }
+
+            int D = (2 * dy) - dx;
+            int y = y0;
+
+            for (int x = x0; x < x1; ++x)
+            {
+                MainWindow->SetPixel(x, y, c);
+
+                if (D > 0)
+                {
+                    y = y + yi;
+                    D = D + (2 * (dy - dx));
+                }
+                else
+                {
+                    D = D + 2 * dy;
+                }
+            }
+        };
+
+        static const auto PlotLineHigh = [](int x0, int y0, int x1, int y1, Colour c)
+        {
+            Window* MainWindow = Window::GetMainWindow();
+
+            int dx = x1 - x0;
+            int dy = y1 - y0;
+            int xi = 1;
+
+            if (dx < 0)
+            {
+                xi = -1;
+                dx = -dx;
+            }
+
+            int D = (2 * dx) - dy;
+            int x = x0;
+
+            for (int y = y0; y < y1; ++y)
+            {
+                MainWindow->SetPixel(x, y, c);
+
+                if (D > 0)
+                {
+                    x = x + xi;
+                    D = D + (2 * (dx - dy));
+                }
+                else
+                {
+                    D = D + 2 * dx;
+                }
+            }
+        };
+
+        if (abs(a_EndY - a_StartY) < abs(a_EndX - a_StartX))
+        {
+            if (a_StartX > a_EndX)
+            {
+                PlotLineLow(a_EndX, a_EndY, a_StartX, a_StartY, a_Colour);
+            }
+            else
+            {
+                PlotLineLow(a_StartX, a_StartY, a_EndX, a_EndY, a_Colour);
+            }
+        }
+        else
+        {
+            if (a_StartY > a_EndY)
+            {
+                PlotLineHigh(a_EndX, a_EndY, a_StartX, a_StartY, a_Colour);
+            }
+            else
+            {
+                PlotLineHigh(a_StartX, a_StartY, a_EndX, a_EndY, a_Colour);
+            }
+        }
+    }
+
     void Draw() const
     {
         WriteConsoleOutput(
@@ -404,5 +588,5 @@ private:
     wchar_t                      m_TitleBuffer[64];
     std::string                  m_Title;
     ScreenBuffer                 m_ScreenBuffer;
-    static const Window*         s_MainWindow;
+    static Window*         s_MainWindow;
 };
