@@ -1,78 +1,8 @@
 #include "Window.hpp"
-#include "Input.hpp"
 #include "Time.hpp"
+#include "Input.hpp"
 
-struct GameCode
-{
-	float RectangleMovementSpeed = 25.0f;
-	float RectangleX = 0;
-	float RectangleY = 0;
-	int RectangleWidth = 4;
-	int RectangleHeight = 4;
-	int ButtonX = 20;
-	int ButtonY = 20;
-	int ButtonWidth = 20;
-	int ButtonHeight = 10;
-	Pixel ButtonNormal = Colour::RED;
-	Pixel ButtonHover = Colour::DARK_GREEN;
-	Pixel ButtonClicked = Colour::WHITE;
-	Pixel ButtonCurrent = ButtonNormal;
-
-	void OnTick( Window& a_GameWindow, float a_DeltaTime )
-	{
-		if ( Input::IsKeyDown( KeyCode::Right ) && RectangleX < a_GameWindow.GetWidth() - RectangleWidth )
-		{
-			RectangleX += RectangleMovementSpeed * a_DeltaTime;
-		}
-
-		if ( Input::IsKeyDown( KeyCode::Left ) && RectangleX > 0 )
-		{
-			RectangleX -= RectangleMovementSpeed * a_DeltaTime;
-		}
-
-		if ( Input::IsKeyDown( KeyCode::Up ) && RectangleY > 0 )
-		{
-			RectangleY -= RectangleMovementSpeed * a_DeltaTime;
-		}
-
-		if ( Input::IsKeyDown( KeyCode::Down ) && RectangleY < a_GameWindow.GetHeight() - RectangleHeight )
-		{
-			RectangleY += RectangleMovementSpeed * a_DeltaTime;
-		}
-
-		// Make the rectangle that changes colour when you hover over it.
-		float MouseX, MouseY;
-		Input::GetMousePosition( MouseX, MouseY );
-
-		// If mouse is over the button
-		if (
-			( MouseX >= ButtonX ) &&
-			( MouseX < ButtonX + ButtonWidth ) &&
-			( MouseY >= ButtonY ) &&
-			( MouseY < ButtonY + ButtonHeight ) )
-		{
-			// If left clicking, change it's colour to the clicked colour;
-			if ( Input::IsMouseDown( MouseCode::LeftMouse ) )
-			{
-				ButtonCurrent = ButtonClicked;
-			}
-			else
-			{
-				ButtonCurrent = ButtonHover;
-			}
-		}
-		else
-		{
-			ButtonCurrent = ButtonNormal;
-		}
-	}
-
-	void OnDraw( Window& a_GameWindow )
-	{
-		a_GameWindow.SetRect( RectangleX, RectangleY, RectangleWidth, RectangleHeight, Colour::LIGHT_BLUE );
-		a_GameWindow.SetRect( ButtonX, ButtonY, ButtonWidth, ButtonHeight, ButtonCurrent );
-	}
-};
+#include "TestGameCode.hpp"
 
 int main()
 {
@@ -94,7 +24,7 @@ int main()
 	Pixel BackgroundPixel = Colour::BLACK;
 
 	// Do things here to setup game code.
-	GameCode SomeRandomGameCode;
+	TestGameCode SomeRandomGameCode;
 
 	// Store the time at the end of each loop
 	TimePoint StartTime = Time::Now();

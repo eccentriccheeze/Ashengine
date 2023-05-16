@@ -144,11 +144,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="TestGameCode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ashengine-Core\Ashengine-Core.vcxproj">
       <Project>{6c29d140-9c9e-45dc-b808-bbba9469f6a1}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TestGameCode.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
