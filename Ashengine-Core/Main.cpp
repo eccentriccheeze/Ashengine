@@ -49,7 +49,7 @@ struct GameCode
 			(MouseX >= ButtonX) &&
 			(MouseX < ButtonX + ButtonWidth) &&
 			(MouseY >= ButtonY) &&
-			(MouseY < ButtonY + ButtonWidth))
+			(MouseY < ButtonY + ButtonHeight))
 		{
 			// If left clicking, change it's colour to the clicked colour;
 			if (Input::IsMouseDown(MouseCode::LeftMouse))
@@ -77,7 +77,7 @@ struct GameCode
 int main()
 {
 	// Create a window to draw to.
-	Window GameWindow("New window!", 128, 128, 4, 4);
+	Window GameWindow("New window!", 128, 128, 8, 8);
 	
 	// Check if the new window creation was successful. If not, return error code.
 	if (!GameWindow.IsValid())
