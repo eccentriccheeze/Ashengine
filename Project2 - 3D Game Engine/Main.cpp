@@ -2,6 +2,27 @@
 
 #include "Window.hpp"
 #include "Input.hpp"
+#include "Application.hpp"
+
+class Engine3D : public Application
+{
+public:
+
+	Engine3D()
+	{
+
+	}
+
+	void OnCreate()
+	{
+
+	}
+
+	void OnUpdate( float a_DeltaTime )
+	{
+
+	}
+};
 
 int main()
 {
@@ -21,6 +42,7 @@ int main()
 	// Do things that need to happen once at the start, like setting up input.
 	Input::Init();
 
-
-
+	// Create the game app, and run it.
+	Engine3D Game;
+	Game.Start();
 }
